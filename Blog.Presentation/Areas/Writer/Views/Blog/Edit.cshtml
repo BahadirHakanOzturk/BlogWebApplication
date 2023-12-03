@@ -1,0 +1,24 @@
+﻿@model Blog
+
+<h1>Blog Düzenleme Sayfası</h1>
+<br />
+@using (Html.BeginForm("Edit", "Blog", FormMethod.Post))
+{
+    @Html.Label("Blog Id")
+    @Html.TextBoxFor(x => x.Id, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Başlığı")
+    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Görseli")
+    @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Kategori")
+    @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@
+    @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.cv, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog İçeriği")
+    @Html.TextAreaFor(x => x.Content, 10, 3, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-success">Güncelle</button>
+}

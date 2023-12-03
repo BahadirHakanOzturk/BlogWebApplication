@@ -1,0 +1,112 @@
+﻿<h1>Yazar Ajax İşlemleri</h1>
+<br />
+<button type="button" id="btnGetList" class="btn btn-outline-primary">Yazar Listesi Getir</button>
+<br />
+<br />
+<div id=writerList>
+	Buraya yazarlar gelecek
+</div>
+<br />
+<hr />
+<div>
+	<input type="text" id="txtWriterId" placeholder="Yazar Id Değerini Girin" class="form-control col-lg-4" />
+</div>
+<br />
+<button type="button" id="btnGetById" class="btn btn-outline-success">Id'ye Göre Yazar Getir</button>
+<br />
+<br />
+<div id="writer">
+</div>
+<br />
+<hr />
+<div>
+	<input type="text" id="txtDeleteWriterId" placeholder="Silinecek Yazar Id Değerini Girin" class="form-control col-lg-4" />
+	<br />
+</div>
+<button type="button" id="btnDeleteWriter" class="btn btn-outline-danger">Yazar Sil</button>
+<br />
+<hr />
+<div>
+	<input type="text" id="txtUpdateWriterId" placeholder="Güncellenecek Yazar Id Değerini Girin" class="form-control col-lg-4" />
+	<br />
+	<input type="text" id="txtUpdateWriterName" placeholder="Yazarın Güncel Adını Girin" class="form-control col-lg-4" />
+	<br />
+</div>
+<button type="button" id="btnUpdateWriter" class="btn btn-outline-warning">Yazar Güncelle</button>
+<br />
+<br />
+<br />
+
+@section scripts{
+	<script>
+		$("#btnGetList").click(function () {
+			$.ajax({
+				contentType: "application/json",
+				dataType: "json",
+				type: "Get",
+				url: "/Admin/Writer/List",
+				success: function (data) {
+					let w = jQuery.parseJSON(data);
+					let tablehtml = "<table class=table table-bordered> <tr><th> Yazar Id </th> <th> Yazar Adı </th> </tr>";
+					$.each(w, (index, value) => {
+						tablehtml += `<tr><td>${value.Id}</td> <td>${value.NameSurname}</td></tr>`
+					});
+					tablehtml += "</table>";
+					$("#writerList").html(tablehtml);
+				}
+			});
+		});
+
+		$("#btnGetById").click(function () {
+
+			let id = $("#txtWriterId").val();
+
+			$.ajax({
+				//contentType: "application/json",
+				url: '/Admin/Writer/GetById/',
+				data: { writerId: id },
+				type: "Get",
+				dataType: "json",
+				success: function (data) {
+					let w = jQuery.parseJSON(data)
+					console.log(w);
+					let getValue = `<table class="table table-bordered"><tr><th>Yazar Id</th><th>Yazar Adı</th></tr><tr><td>${w.Id}</td><td>${w.NameSurname}</td></tr></table>`;
+					$("#writer").html(getValue);
+				}
+			});
+		});
+
+		$("#btnDeleteWriter").click(function () {
+
+			let id = $("#txtDeleteWriterId").val();
+
+			$.ajax({
+				url: "/Admin/Writer/Delete",
+				data: { writerId: id },
+				type: "Post",
+				dataType: "json",
+				success: function (data) {
+					alert("Yazar silme işlemi başarılı bir şekilde gerçekleşti.");
+				}
+			});
+		});
+
+		$("#btnUpdateWriter").click(function () {
+
+			let writer = {
+				Id: $("#txtUpdateWriterId").val(),
+				NameSurname: $("#txtUpdateWriterName").val()
+			};
+
+			$.ajax({
+				type: "Post",
+				dataType: "json",
+				url: "/Admin/Writer/Update",
+				data: writer,
+				success: function (data) {
+					alert("Güncelleme yapıldı.");
+				}
+			});
+		});
+	</script>
+}

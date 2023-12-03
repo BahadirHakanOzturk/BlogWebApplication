@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Message>
+
+<h1>Giden Kutusu</h1>
+<table class="table table-bordered">
+	<tr>
+		<th>#</th>
+		<th>Konu</th>
+		<th>Alıcı</th>
+		<th>Tarih</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<th>@item.Id</th>
+			<td>@item.Subject</td>
+			<td>@item.Receiver.NameSurname</td>
+			<td>@(((DateTime)item.Date).ToString("dd-MMM-yyyy"))</td>
+			<td><a href="/Writer/Message/Details/@item.Id" class="btn btn-warning">Mesajı Aç</a></td>
+		</tr>
+	}
+</table>
+<a href="/Writer/Message/SendMessage" class="btn btn-primary">Yeni Mesaj Oluştur</a>

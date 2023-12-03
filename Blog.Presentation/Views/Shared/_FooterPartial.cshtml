@@ -1,0 +1,62 @@
+﻿<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 footer-grid-agileits-w3ls text-left">
+				<h3>Hakkımızda</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa porro aspernatur ratione, deleniti atque laboriosam quis aliquam vel quaerat illum eum explicabo consequuntur dolorem fuga alias iure quasi voluptas voluptate distinctio at aliquid ducimus temporibus odio. Ipsa soluta odio quo.</p>
+				<div class="read">
+					<a href="/Blog/About" class="btn btn-primary read-m">Devamını Oku</a>
+				</div>
+			</div>
+			<div class="col-lg-4 footer-grid-agileits-w3ls text-left">
+			
+				@await Component.InvokeAsync("BlogLast3Posts")
+
+			</div>
+			<div class="col-lg-4 subscribe-main footer-grid-agileits-w3ls text-left">
+				<h2>Mail Bültenimize Abone Ol</h2>
+
+				<partial name="~/Views/Shared/_SubscribeMailPartial.cshtml"></partial>
+
+			</div>
+		</div>
+		<div class="footer-cpy text-center">
+			<div class="footer-social">
+				<div class="copyrighttop">
+					<ul>
+						<li class="mx-3">
+							<a class="facebook" href="#">
+								<i class="fab fa-facebook-f"></i>
+								<span>Facebook</span>
+							</a>
+						</li>
+						<li>
+							<a class="facebook" href="#">
+								<i class="fab fa-twitter"></i>
+								<span>Twitter</span>
+							</a>
+						</li>
+						<li class="mx-3">
+							<a class="facebook" href="#">
+								<i class="fab fa-google-plus-g"></i>
+								<span>Google+</span>
+							</a>
+						</li>
+						<li>
+							<a class="facebook" href="#">
+								<i class="fab fa-pinterest-p"></i>
+								<span>Pinterest</span>
+							</a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+			<div class="w3layouts-agile-copyrightbottom">
+				<p>
+					© @DateTime.Now.Year Tüm Hakları Saklıdır. 
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>

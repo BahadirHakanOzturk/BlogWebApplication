@@ -1,0 +1,15 @@
+﻿@model AppUser
+
+<a href="#" class="nav-link">
+	<div class="nav-profile-image">
+		<img src="@Model.ImageUrl" alt="profile">
+		<span class="login-status online"></span>
+	</div>
+	<div class="nav-profile-text d-flex flex-column">
+		<span class="font-weight-bold mb-2">@Model.NameSurname</span>
+		@if (@Model.Title != null)
+		{
+			<span class="text-secondary text-small">@Model.Title</span>
+		}		
+	</div>
+</a>

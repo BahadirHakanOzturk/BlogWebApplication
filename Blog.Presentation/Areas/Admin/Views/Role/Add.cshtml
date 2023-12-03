@@ -1,0 +1,12 @@
+﻿@model RoleVM
+
+<h1>Rol Ekleme Sayfası</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label>Rol Başlığı</label>
+        <input type="text" class="form-control" asp-for="Name" >
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <button class="btn btn-primary">Kaydet</button>
+</form>

@@ -1,0 +1,18 @@
+﻿@model CategoryAddVM
+
+<h1>Yeni Kategori Girişi</h1>
+<br />
+<form asp-action="Add" asp-controller="Category" asp-area="Admin" method="post" >
+	<div class="form-group">
+		<label>Kategori Adı</label>
+		<input type="text" asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label>Kategori Açıklaması</label>
+		<textarea class="form-control" asp-for="Description"></textarea>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div>
+	
+	<button class="btn btn-info">Verileri Kaydet</button>
+</form>

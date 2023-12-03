@@ -1,0 +1,28 @@
+﻿@model UserSignInVM
+
+<section class="main-content-w3layouts-agileits">
+	<div class="container">
+		<h3 class="tittle">Oturum Aç</h3>
+		<div class="row inner-sec">
+			<div class="login p-5 bg-light mx-auto mw-100">
+				<form method="post">
+					<div class="form-group">
+						<label>Mail Adresi</label>
+						<input type="text" class="form-control" asp-for="@Model.Email" required="">
+						</div>
+					<div class="form-group">
+						<label>Şifre</label>
+						<input type="password" class="form-control" asp-for="@Model.Password" required="">
+					</div>
+					<div class="form-check mb-2">
+						<input type="checkbox" class="form-check-input">
+						<label class="form-check-label">Beni Hatırla</label>
+					</div>
+					<button type="submit" class="btn btn-primary submit mb-4">Giriş Yap</button>
+					<p><a href="/Register/Index">Bir hesabın yok mu ?</a></p>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+

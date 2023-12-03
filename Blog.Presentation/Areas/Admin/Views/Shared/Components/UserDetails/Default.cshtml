@@ -1,0 +1,11 @@
+﻿@model AppUser
+
+<a href="#">
+    <span class="block m-t-xs font-bold">@Model.NameSurname</span>
+
+    @if(@Model.Title != null)
+    {
+        <span class="text-muted text-xs block">@Model.Title</span>
+    }
+    
+</a>

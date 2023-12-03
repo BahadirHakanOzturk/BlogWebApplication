@@ -1,0 +1,61 @@
+﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
+	<ul class="nav">
+		<li class="nav-item nav-profile">
+			@await Component.InvokeAsync("WriterDetails")
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Dashboard/Index">
+				<span class="menu-title">Dashboard</span>
+				<i class="mdi mdi-home menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Writer/EditProfile">
+				<span class="menu-title">Profilim</span>
+				<i class="mdi mdi-contacts menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Blog/ListByWriter">
+				<span class="menu-title">Bloglarım</span>
+				<i class="mdi mdi-format-list-bulleted menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Blog/Add">
+				<span class="menu-title">Yeni Blog</span>
+				<i class="mdi mdi-chart-bar menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Message/Inbox">
+				<span class="menu-title">Gelen Mesajlar</span>
+				<i class="mdi mdi-message menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Message/Sendbox">
+				<span class="menu-title">Giden Mesajlar</span>
+				<i class="mdi mdi-message-plus menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Writer/Notification/All">
+				<span class="menu-title">Bildirimler</span>
+				<i class="mdi mdi-call-merge menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Blog/Index">
+				<span class="menu-title">Siteye Git</span>
+				<i class="mdi mdi-car menu-icon"></i>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/Login/Logout">
+				<span class="menu-title">Çıkış Yap</span>
+				<i class="mdi mdi-logout-variant menu-icon"></i>
+			</a>
+		</li>
+	</ul>
+</nav>

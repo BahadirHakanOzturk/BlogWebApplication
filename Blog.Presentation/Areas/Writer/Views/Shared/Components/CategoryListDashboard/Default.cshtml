@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Category>
+
+<div class="row">
+	<div class="col-md-12 grid-margin stretch-card">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Project Status</h4>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="text-center"> # </th>
+								<th class="text-left"> Kategori Adı </th>
+								<th class ="text-center"> Durumu </th>
+								<th class="text-center"> İşlemler </th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var item in Model)
+							{
+								<tr>
+									<td class="text-center"> @item.Id </td>
+									<td class="text-left"> @item.Name </td>
+									@if (@item.Status == true)
+									{
+
+										<td class="text-center">
+											<label class="badge badge-gradient-success">Aktif</label>
+										</td>
+									}
+									<td class="text-center">
+										<div class="progress">
+											<div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+										</div>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
