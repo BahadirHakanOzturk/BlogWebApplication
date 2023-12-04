@@ -2,7 +2,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -15,7 +14,7 @@ public static class ApplicationServiceRegistration
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<BlogValidator>());
+        services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<BlogAddVMValidator>());
         services.AddSession();
         services.AddMvc(config =>  //Authorization at project level
         {

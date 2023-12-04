@@ -4,7 +4,6 @@ using Blog.Entities.Concrete.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Blog.Presentation.Areas.Admin.Controllers;
 
@@ -38,11 +37,8 @@ public class MessageController : Controller
     [HttpPost]
 	public async Task<IActionResult> ComposeMessage(Message message)
 	{
-		int id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-		message.SenderId = id;
-		message.ReceiverId = 2;
-		message.Date = Convert.ToDateTime(DateTime.Now.ToShortDateString());
-		message.Status = true;
+		var user = await userManager.FindByNameAsync(User.Identity.Name);
+		message.SenderId = user.Id;
 		await messageService.AddAsync(message);
 		return RedirectToAction("SendBox");
 	}

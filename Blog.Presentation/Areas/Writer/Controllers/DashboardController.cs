@@ -28,6 +28,7 @@ public class DashboardController : Controller
 		ViewBag.totalBlog = await blogService.GetTotalCountAsync();
 		ViewBag.writerBlogCount = await blogService.GetTotalCountByWriterAsync(user.Id);
 		ViewBag.totalCategory = await categoryService.GetTotalCountAsync();
+
 		return View(user);
 	}	
 }

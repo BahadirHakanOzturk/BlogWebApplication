@@ -1,13 +1,11 @@
-﻿using Blog.Application.Contracts.Services;
-using Blog.Application.ValidationRules;
+﻿using AutoMapper;
+using Blog.Application.Contracts.Services;
 using Blog.Application.ViewModels;
 using Blog.Entities.Concrete;
 using Blog.Entities.Concrete.User;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Blog.Presentation.Areas.Writer.Controllers;
 
@@ -18,76 +16,85 @@ public class BlogController : Controller
 	private readonly ICategoryService categoryService;
 	private readonly IBlogService blogService;
 	private readonly UserManager<AppUser> userManager;
+	private readonly IMapper mapper;
 
-	public BlogController(IBlogService blogService, ICategoryService categoryService, UserManager<AppUser> userManager)
+	public BlogController(IBlogService blogService, ICategoryService categoryService, UserManager<AppUser> userManager, IMapper mapper)
 	{
 		this.blogService = blogService;
 		this.categoryService = categoryService;
 		this.userManager = userManager;
+		this.mapper = mapper;
 	}
 
 	public async Task<IActionResult> Add()
 	{
 		List<Category> categories = (List<Category>)await categoryService.GetAllAsync();
-		//List<SelectListItem> categoryValues = (from x in await categoryService.GetAllAsync()
-		//									   select new SelectListItem
-		//									   {
-		//										   Text = x.Name,
-		//										   Value = x.Id.ToString()
-		//									   }).ToList();
-		BlogAddVM model = new BlogAddVM();		
-		model.CategoryList = categories;
-		return View(model);
+		ViewBag.CategoryList = categories;
+		return View();
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Add(Entities.Concrete.Blog blog)
+	public async Task<IActionResult> Add(BlogAddVM model)
 	{
 		var user = await userManager.FindByNameAsync(User.Identity.Name);
 
-		BlogValidator bv = new BlogValidator();
-		ValidationResult results = bv.Validate(blog);
-		if (results.IsValid)
+		if (ModelState.IsValid)
 		{
-			blog.Status = true;
-			blog.CreateDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-			blog.UserId = user.Id;
-			blog.CategoryId = 2;
-			await blogService.AddAsync(blog);
+			var newBlog = mapper.Map<Entities.Concrete.Blog>(model);
+			newBlog.UserId = user.Id;
+			if (model.Image != null)
+			{
+				var extension = Path.GetExtension(model.Image.FileName);
+				var newImageName = Guid.NewGuid() + extension;
+				var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/BlogImageFiles/", newImageName);
+				var stream = new FileStream(location, FileMode.Create);
+				model.Image.CopyTo(stream);
+				newBlog.ImageUrl = Path.Combine("/BlogImageFiles/", newImageName);
+			}
+			await blogService.AddAsync(newBlog);
 			return RedirectToAction("ListByWriter", "Blog");
 		}
+
 		else
 		{
-			foreach (var item in results.Errors)
-			{
-				ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-			}
+			List<Category> categories = (List<Category>)await categoryService.GetAllAsync();
+			ViewBag.CategoryList = categories;
+			return View(model);
 		}
-		return View();
 	}
 
 	public async Task<IActionResult> Edit(int id)
 	{
-		var blogvalue = await blogService.GetByIdAsync(id);
-		List<SelectListItem> categoryValues = (from x in await categoryService.GetAllAsync()
-											   select new SelectListItem
-											   {
-												   Text = x.Name,
-												   Value = x.Id.ToString()
-											   }).ToList();
-		ViewBag.cv = categoryValues;
-		return View(blogvalue);
+		var blog = await blogService.GetByIdAsync(id);
+		
+		var model = mapper.Map<BlogUpdateVM>(blog);
+
+		List<Category> categories = (List<Category>)await categoryService.GetAllAsync();
+		ViewBag.CategoryList = categories;
+
+		return View(model);
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Edit(Entities.Concrete.Blog blog)
+	public async Task<IActionResult> Edit(BlogUpdateVM model)
 	{
-
 		var user = await userManager.FindByNameAsync(User.Identity.Name);
 
-		blog.CreateDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-		blog.UserId = user.Id;
-		blog.Status = true;
+		var blog = await blogService.GetByIdAsync(model.Id);
+		blog.Title = model.Title;
+		blog.CategoryId = model.CategoryId;
+		blog.Content = model.Content;
+
+		if (model.Image != null)
+		{
+			var extension = Path.GetExtension(model.Image.FileName);
+			var newImageName = Guid.NewGuid() + extension;
+			var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/WriterImageFiles/", newImageName);
+			var stream = new FileStream(location, FileMode.Create);
+			model.Image.CopyTo(stream);
+			blog.ImageUrl = Path.Combine("/WriterImageFiles/", newImageName);
+		}
+
 		await blogService.UpdateAsync(blog);
 		return RedirectToAction("ListByWriter");
 	}
@@ -100,8 +107,8 @@ public class BlogController : Controller
 	}
 
 	public async Task<IActionResult> ListByWriter()
-    {
-        var user = await userManager.FindByNameAsync(User.Identity.Name);
-        return View(await blogService.GetListWithCategoryByWriterAsync(user.Id));
-    }
+	{
+		var user = await userManager.FindByNameAsync(User.Identity.Name);
+		return View(await blogService.GetListWithCategoryByWriterAsync(user.Id));
+	}
 }

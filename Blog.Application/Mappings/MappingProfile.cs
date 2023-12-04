@@ -13,6 +13,9 @@ public class MappingProfile : Profile
         CreateMap<AppRole, RoleVM>().ReverseMap();
         CreateMap<AppRole, RoleUpdateVM>().ReverseMap();
         CreateMap<AppUser, UserSignUpVM>().ReverseMap();
+        CreateMap<AppUser, UserUpdateVM>().ReverseMap();
         CreateMap<Comment, CommentVM>().ReverseMap();
+        CreateMap<Blog.Entities.Concrete.Blog, BlogAddVM>().ReverseMap();
+        CreateMap<Blog.Entities.Concrete.Blog, BlogUpdateVM>().ReverseMap();
     }
 }

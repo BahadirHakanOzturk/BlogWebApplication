@@ -1,14 +1,8 @@
 ﻿using Blog.Application.Contracts.Repositories.Base;
 using Blog.Entities.Abstract;
-using Blog.Entities.Concrete;
 using Blog.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Infrastructure.Repositories.Base;
 

@@ -1,24 +1,65 @@
-﻿@model Blog
+﻿@model BlogUpdateVM
 
-<h1>Blog Düzenleme Sayfası</h1>
-<br />
-@using (Html.BeginForm("Edit", "Blog", FormMethod.Post))
-{
-    @Html.Label("Blog Id")
-    @Html.TextBoxFor(x => x.Id, new { @class = "form-control" })
-    <br />
-    @Html.Label("Blog Başlığı")
-    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
-    <br />
-    @Html.Label("Blog Görseli")
-    @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
-    <br />
-    @Html.Label("Blog Kategori")
-    @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@
-    @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.cv, new { @class = "form-control" })
-    <br />
-    @Html.Label("Blog İçeriği")
-    @Html.TextAreaFor(x => x.Content, 10, 3, new { @class = "form-control" })
-    <br />
-    <button class="btn btn-success">Güncelle</button>
-}
+<div class="col-12 grid-margin stretch-card">
+	<div class="card">
+		<div class="card-body">
+			<h4 class="card-title">Blog Düzenle</h4>
+			<br />
+			<form class="forms-sample" asp-action="Edit" asp-controller="Blog" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label asp-for="Id" style="display: none">Id</label>
+					<input type="hidden" asp-for="Id" class="form-control" />
+					<span asp-validation-for="Id" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Title">Blog Başlığı</label>
+					<input type="text" asp-for="Title" class="form-control" />
+					<span asp-validation-for="Title" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Image">Blog Görseli</label>
+					<input id="fileInput" type="file" asp-for="Image" class="form-control" onchange="return validateFile();" />
+					<span asp-validation-for="Image" class="text-danger"></span>
+				</div>
+
+				<div class="form-group">
+					<label asp-for="CategoryId">Kategori</label>
+					<select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.CategoryList, nameof(Category.Id), nameof(Category.Name)))">Kategori Seçin</select>
+				</div>
+				<div class="form-group">
+					<label asp-for="Content">Blog İçeriği</label>
+					<textarea asp-for="Content" rows="6" class="form-control"></textarea>
+					<span asp-validation-for="Content" class="text-danger"></span>
+				</div>
+				<button class="btn btn-gradient-primary mr-2">Blogu Güncelle</button>
+				<button asp-action="Index" asp-controller="Dashboard" class="btn btn-light">İptal</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	function validateFile() {
+		var fileInput = document.getElementById('fileInput');
+		var fileName = fileInput.value;
+		var fileSize = fileInput.files[0].size;
+
+		var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+		if (!allowedExtensions.test(fileName)) {
+			alert('Hata: Sadece JPEG ve PNG dosyaları yükleyebilirsiniz.');
+			fileInput.value = '';
+			return false;
+		}
+
+		var maxSize = 25 * 1024 * 1024;
+		if (fileSize > maxSize) {
+			alert('Hata: Dosya boyutu 25 MB\'dan büyük olamaz.');
+			fileInput.value = '';
+			return false;
+		}
+
+		alert('Başarıyla yüklendi');
+
+		return true;
+	}
+</script>

@@ -1,29 +1,31 @@
 ﻿@model BlogAddVM
 
-<h1>Yeni Blog Girişi</h1>
 <br />
 <div class="col-12 grid-margin stretch-card">
 	<div class="card">
 		<div class="card-body">
-			<h4 class="card-title">Yazar Profil Bilgileri Düzenle</h4>
+			<h4 class="card-title">Yeni Blog Girişi</h4>
 			<br />
 			<form class="forms-sample" asp-action="Add" asp-controller="Blog" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label asp-for="Title">Blog Başlığı</label>
 					<input type="text" asp-for="Title" class="form-control" />
+					<span asp-validation-for="Title" class="text-danger"></span>
 				</div>
 				<div class="form-group">
 					<label asp-for="Image">Blog Görseli</label>
-					<input id="fileInput" type="file" asp-for="Image" class="form-control" onchange="return validateFile();" value="@Model.ImageUrl" />
+					<input id="fileInput" type="file" asp-for="Image" class="form-control" onchange="return validateFile();" />
+					<span asp-validation-for="Image" class="text-danger"></span>
 				</div>
 
 				<div class="form-group">
 					<label asp-for="CategoryId">Kategori</label>
-					<select asp-for="CategoryId" asp-items="@(new SelectList(Model.CategoryList, nameof(Category.Id), nameof(Category.Name)))">Kategori Seçin</select>					
+					<select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.CategoryList, nameof(Category.Id), nameof(Category.Name)))">Kategori Seçin</select>					
 				</div>				
 				<div class="form-group">
 					<label asp-for="Content">Blog İçeriği</label>
 					<textarea asp-for="Content" rows="6" class="form-control"></textarea>
+					<span asp-validation-for="Content" class="text-danger"></span>
 				</div>
 				<button class="btn btn-gradient-primary mr-2">Blogu Kaydet</button>
 				<button asp-action="Index" asp-controller="Dashboard" class="btn btn-light">İptal</button>
